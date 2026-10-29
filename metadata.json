@@ -1,0 +1,8 @@
+{
+  "name": "Remix SolfaTunes",
+  "description": "Imported from GitHub: CommonWealth-Worker/SolfaTunes",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

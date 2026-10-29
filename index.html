@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SolfaTunes — ABC to Tonic Sol-fa notation Studio</title>
+    <meta name="description" content="Convert ABC notation to Movable-Do Tonic Sol-fa notation with custom score rendering, MIDI playback, and MIDI export." />
+    <meta property="og:title" content="SolfaTunes — ABC to Tonic Sol-fa notation Studio" />
+    <meta property="og:description" content="Convert ABC notation to Movable-Do Tonic Sol-fa notation with custom score rendering, MIDI playback, and MIDI export." />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366f1'><path d='M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z'/></svg>" />
+    <script>
+      // Safeguard against browser and chrome extension polyfill errors in iframes
+      (function() {
+        try {
+          var mockGetManifest = function() {
+            return { version: "1.0.0", name: "SafeMock", manifest_version: 3 };
+          };
+          
+          var patchRuntime = function(obj) {
+            if (!obj) return;
+            try {
+              if (!obj.runtime) {
+                Object.defineProperty(obj, 'runtime', {
+                  value: {},
+                  writable: true,
+                  configurable: true
+                });
+              }
+              if (obj.runtime && typeof obj.runtime.getManifest !== 'function') {
+                Object.defineProperty(obj.runtime, 'getManifest', {
+                  value: mockGetManifest,
+                  writable: true,
+                  configurable: true
+                });
+              }
+            } catch (err) {
+              if (obj.runtime && !obj.runtime.getManifest) {
+                try {
+                  obj.runtime.getManifest = mockGetManifest;
+                } catch (e) {}
+              }
+            }
+          };
+
+          if (typeof window !== 'undefined') {
+            if (!window.browser) {
+              try {
+                Object.defineProperty(window, 'browser', {
+                  value: {},
+                  writable: true,
+                  configurable: true
+                });
+              } catch (e) {
+                window.browser = {};
+              }
+            }
+            patchRuntime(window.browser);
+
+            if (!window.chrome) {
+              try {
+                Object.defineProperty(window, 'chrome', {
+                  value: {},
+                  writable: true,
+                  configurable: true
+                });
+              } catch (e) {
+                window.chrome = {};
+              }
+            }
+            patchRuntime(window.chrome);
+          }
+
+          // Suppress third-party chrome-extension sandbox message timeout errors
+          window.addEventListener('unhandledrejection', function(event) {
+            if (event && event.reason && (
+              (event.reason.message && event.reason.message.includes('chrome: call method')) ||
+              (typeof event.reason === 'string' && event.reason.includes('chrome: call method')) ||
+              (event.reason.stack && event.reason.stack.includes('chrome-extension://'))
+            )) {
+              event.preventDefault();
+            }
+          });
+          window.addEventListener('error', function(event) {
+            if (event && (
+              (event.message && event.message.includes('chrome: call method')) ||
+              (event.filename && event.filename.includes('chrome-extension://'))
+            )) {
+              event.preventDefault();
+            }
+          });
+        } catch (e) {
+          console.warn("Could not patch chrome/browser runtime mocks:", e);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
